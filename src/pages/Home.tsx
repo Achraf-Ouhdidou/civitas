@@ -1,83 +1,113 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Vote, Users, FileCheck, Calendar, ArrowRight, Star, Target, Heart } from 'lucide-react';
+import { Vote, Users, FileCheck, Calendar, ArrowRight, Star, Target, Heart, TrendingUp, Shield, Zap } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const Home: React.FC = () => {
+  const { t, isRTL } = useLanguage();
+
   const features = [
     {
       icon: Vote,
-      title: 'Political Compass',
-      description: 'Discover which political parties align with your values through our scientifically-designed quiz.',
+      title: t('home.features.quiz.title'),
+      description: t('home.features.quiz.description'),
       href: '/quiz',
-      color: 'from-moroccan-red to-red-600',
+      gradient: 'from-moroccan-red to-moroccan-burgundy',
+      iconBg: 'bg-moroccan-red',
     },
     {
       icon: Users,
-      title: 'Know Your Candidates',
-      description: 'Explore detailed profiles of candidates in your region with verified information.',
+      title: t('home.features.candidates.title'),
+      description: t('home.features.candidates.description'),
       href: '/candidates',
-      color: 'from-moroccan-blue to-blue-600',
+      gradient: 'from-moroccan-blue to-blue-700',
+      iconBg: 'bg-moroccan-blue',
     },
     {
       icon: FileCheck,
-      title: 'Policy Tracker',
-      description: 'Track political promises and see if parties deliver on their commitments.',
+      title: t('home.features.policies.title'),
+      description: t('home.features.policies.description'),
       href: '/policies',
-      color: 'from-moroccan-green to-green-600',
+      gradient: 'from-moroccan-green to-green-700',
+      iconBg: 'bg-moroccan-green',
     },
     {
       icon: Calendar,
-      title: 'Political Events',
-      description: 'Stay updated on debates, town halls, and important political events near you.',
+      title: t('home.features.events.title'),
+      description: t('home.features.events.description'),
       href: '/events',
-      color: 'from-moroccan-gold to-yellow-600',
+      gradient: 'from-moroccan-gold to-moroccan-copper',
+      iconBg: 'bg-moroccan-gold',
     },
   ];
 
   const stats = [
-    { number: '1M+', label: 'Active Users' },
-    { number: '500+', label: 'Candidates Tracked' },
-    { number: '12', label: 'Political Parties' },
-    { number: '95%', label: 'User Satisfaction' },
+    { number: '1M+', label: t('home.stats.users'), icon: Users },
+    { number: '500+', label: t('home.stats.candidates'), icon: Target },
+    { number: '12', label: t('home.stats.parties'), icon: Vote },
+    { number: '95%', label: t('home.stats.satisfaction'), icon: Star },
+  ];
+
+  const benefits = [
+    {
+      icon: Shield,
+      title: 'Research-Backed',
+      description: 'Built with Moroccan political science experts',
+    },
+    {
+      icon: Zap,
+      title: 'Real-Time Updates',
+      description: 'Live tracking of political developments',
+    },
+    {
+      icon: TrendingUp,
+      title: 'Data-Driven Insights',
+      description: 'Evidence-based political analysis',
+    },
   ];
 
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-moroccan-red via-red-600 to-moroccan-gold text-white py-20 lg:py-32">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-moroccan-red via-moroccan-burgundy to-moroccan-gold geometric-pattern-bg">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-white"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <span className="block">صوتك يهم</span>
-              <span className="block text-2xl md:text-3xl font-normal mt-2 opacity-90">
-                Your Vote Matters
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Empower your democratic participation with Morocco's most comprehensive voting awareness platform
+            <div className="mb-8">
+              <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 text-shadow">
+                <span className="block">{t('home.hero.title')}</span>
+              </h1>
+              <div className="text-2xl md:text-3xl font-medium mb-4 opacity-90">
+                <span className="block text-moroccan-cream">{t('home.hero.subtitle')}</span>
+              </div>
+              <div className="w-24 h-1 bg-moroccan-gold mx-auto mb-8 rounded-full"></div>
+            </div>
+            
+            <p className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto opacity-90 leading-relaxed">
+              {t('home.hero.description')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            
+            <div className={`flex flex-col sm:flex-row gap-6 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <Link
                 to="/quiz"
-                className="inline-flex items-center px-8 py-4 bg-white text-moroccan-red font-semibold rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-lg hover:shadow-xl group"
+                className="moroccan-button-primary text-lg px-8 py-4 shadow-gold hover:shadow-2xl group"
               >
-                <Target className="w-5 h-5 mr-2" />
-                Take Political Quiz
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                <Target className="w-6 h-6 mr-3" />
+                {t('home.hero.cta.primary')}
+                <ArrowRight className={`w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180' : ''}`} />
               </Link>
               <Link
                 to="/candidates"
-                className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-moroccan-red transition-all duration-200 group"
+                className="moroccan-button bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 hover:bg-white hover:text-moroccan-red text-lg px-8 py-4 group"
               >
-                <Users className="w-5 h-5 mr-2" />
-                Explore Candidates
+                <Users className="w-6 h-6 mr-3" />
+                {t('home.hero.cta.secondary')}
               </Link>
             </div>
           </motion.div>
@@ -85,21 +115,24 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="academic-section bg-white">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                className="text-center group"
               >
-                <div className="text-3xl md:text-4xl font-bold text-moroccan-red mb-2">
+                <div className="w-16 h-16 bg-gradient-to-br from-moroccan-red to-moroccan-gold rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-moroccan">
+                  <stat.icon className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-4xl md:text-5xl font-heading font-bold text-moroccan-navy mb-2">
                   {stat.number}
                 </div>
-                <div className="text-gray-600 font-medium">
+                <div className="text-moroccan-slate font-medium">
                   {stat.label}
                 </div>
               </motion.div>
@@ -109,50 +142,70 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="academic-section bg-gradient-to-br from-gray-50 to-moroccan-cream/30 moroccan-pattern-bg">
+        <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-moroccan-dark mb-4">
-              Everything You Need to Vote Smart
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-moroccan-navy mb-6">
+              {t('home.features.title')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our platform combines cutting-edge technology with rigorous research to help you make informed decisions
+            <div className="w-24 h-1 bg-gradient-to-r from-moroccan-red to-moroccan-gold mx-auto mb-6 rounded-full"></div>
+            <p className="text-xl text-moroccan-slate max-w-3xl mx-auto leading-relaxed">
+              {t('home.features.subtitle')}
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
               >
                 <Link
                   to={feature.href}
-                  className="block group"
+                  className="block group h-full"
                 >
-                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:scale-105">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                      <feature.icon className="w-8 h-8 text-white" />
+                  <div className="moroccan-card p-8 h-full hover:scale-105 transition-all duration-300 group-hover:shadow-moroccan">
+                    <div className={`w-20 h-20 ${feature.iconBg} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
+                      <feature.icon className="w-10 h-10 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-moroccan-dark mb-4 group-hover:text-moroccan-red transition-colors">
+                    <h3 className="text-2xl font-heading font-bold text-moroccan-navy mb-4 group-hover:text-moroccan-red transition-colors">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 mb-6 leading-relaxed">
+                    <p className="text-moroccan-slate mb-6 leading-relaxed">
                       {feature.description}
                     </p>
                     <div className="flex items-center text-moroccan-red font-semibold group-hover:text-moroccan-gold transition-colors">
-                      Get Started
-                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+                      <span>{t('common.view')}</span>
+                      <ArrowRight className={`w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform ${isRTL ? 'rotate-180' : ''}`} />
                     </div>
                   </div>
                 </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Benefits */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={benefit.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                className="text-center"
+              >
+                <div className="w-16 h-16 bg-gradient-to-br from-moroccan-blue to-moroccan-navy rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-academic">
+                  <benefit.icon className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-lg font-bold text-moroccan-navy mb-2">{benefit.title}</h4>
+                <p className="text-moroccan-slate text-sm">{benefit.description}</p>
               </motion.div>
             ))}
           </div>
@@ -160,27 +213,31 @@ export const Home: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-moroccan-blue to-blue-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="academic-section bg-gradient-to-r from-moroccan-navy via-moroccan-blue to-moroccan-navy text-white relative overflow-hidden">
+        <div className="absolute inset-0 geometric-pattern-bg opacity-10"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Heart className="w-16 h-16 mx-auto mb-6 text-moroccan-gold" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Join the Civic Renaissance
+            <div className="w-20 h-20 bg-gradient-to-br from-moroccan-gold to-moroccan-copper rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-gold">
+              <Heart className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">
+              {t('home.cta.title')}
             </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Be part of Morocco's digital democracy movement. Your participation shapes our nation's future.
+            <div className="w-24 h-1 bg-moroccan-gold mx-auto mb-6 rounded-full"></div>
+            <p className="text-xl mb-10 opacity-90 leading-relaxed">
+              {t('home.cta.description')}
             </p>
             <Link
               to="/quiz"
-              className="inline-flex items-center px-8 py-4 bg-moroccan-gold text-moroccan-dark font-semibold rounded-xl hover:bg-yellow-400 transition-all duration-200 shadow-lg hover:shadow-xl group"
+              className="moroccan-button-secondary text-lg px-10 py-4 shadow-gold hover:shadow-2xl group inline-flex items-center"
             >
-              <Star className="w-5 h-5 mr-2" />
-              Start Your Journey
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              <Star className="w-6 h-6 mr-3" />
+              {t('home.cta.button')}
+              <ArrowRight className={`w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180' : ''}`} />
             </Link>
           </motion.div>
         </div>

@@ -1,3 +1,121 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+  
+  .font-arabic {
+    font-family: 'Noto Sans Arabic', sans-serif;
+  }
+  
+  .font-tifinagh {
+    font-family: 'Noto Sans Tifinagh', sans-serif;
+    direction: ltr !important;
+  }
+  
+  .font-heading {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .moroccan-card {
+    @apply bg-white rounded-2xl shadow-academic hover:shadow-moroccan transition-all duration-300 border border-gray-100;
+  }
+  
+  .moroccan-button {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 active:scale-95;
+  }
+  
+  .moroccan-button-primary {
+    @apply moroccan-button bg-gradient-to-r from-moroccan-red to-moroccan-burgundy text-white hover:shadow-moroccan;
+  }
+  
+  .moroccan-button-secondary {
+    @apply moroccan-button bg-gradient-to-r from-moroccan-gold to-moroccan-copper text-white hover:shadow-gold;
+  }
+  
+  .moroccan-input {
+    @apply w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-moroccan-red focus:ring-2 focus:ring-moroccan-red/20 transition-all duration-200;
+  }
+  
+  .moroccan-pattern-bg {
+    @apply bg-moroccan-pattern bg-repeat;
+  }
+  
+  .geometric-pattern-bg {
+    @apply bg-geometric-pattern bg-repeat;
+  }
+  
+  .text-gradient-moroccan {
+    @apply bg-gradient-to-r from-moroccan-red to-moroccan-gold bg-clip-text text-transparent;
+  }
+  
+  .academic-section {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .loading-shimmer {
+    @apply relative overflow-hidden;
+  }
+  
+  .loading-shimmer::after {
+    @apply absolute top-0 right-0 bottom-0 left-0 transform translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shimmer;
+    content: '';
+  }
+}
+
+@layer utilities {
+  .rtl {
+    direction: rtl;
+  }
+  
+  .ltr {
+    direction: ltr;
+  }
+  
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .backdrop-blur-xs {
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c41e3a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #800020;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

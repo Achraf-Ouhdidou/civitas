@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, RotateCcw, Share2, Download, Check } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Share2, Download, Check, Clock, Target } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface Question {
@@ -17,7 +17,7 @@ interface QuizResult {
 }
 
 export const PoliticalQuiz: React.FC = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(-1); // Start at -1 for quiz type selection
+  const [currentQuestion, setCurrentQuestion] = useState(-1);
   const [answers, setAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [quizType, setQuizType] = useState<'short' | 'full'>('short');
@@ -30,7 +30,6 @@ export const PoliticalQuiz: React.FC = () => {
   const totalQuestions = quizType === 'short' ? 10 : 15;
   const progress = currentQuestion >= 0 ? ((currentQuestion + 1) / totalQuestions) * 100 : 0;
 
-  // Fetch questions when quiz type or language changes
   useEffect(() => {
     if (currentQuestion >= 0) {
       fetchQuestions();
@@ -44,7 +43,6 @@ export const PoliticalQuiz: React.FC = () => {
       setQuestions(data.questions);
     } catch (error) {
       console.error('Failed to fetch questions:', error);
-      // Fallback to mock data
       setQuestions(getMockQuestions());
     }
   };
@@ -112,7 +110,6 @@ export const PoliticalQuiz: React.FC = () => {
     if (currentQuestion < totalQuestions - 1) {
       setTimeout(() => setCurrentQuestion(currentQuestion + 1), 300);
     } else {
-      // Submit quiz and get results
       setLoading(true);
       try {
         const response = await fetch('/api/quiz/results', {
@@ -124,7 +121,6 @@ export const PoliticalQuiz: React.FC = () => {
         setResults(data.results);
       } catch (error) {
         console.error('Failed to get results:', error);
-        // Fallback to mock results
         setResults(getMockResults());
       }
       setLoading(false);
@@ -162,62 +158,71 @@ export const PoliticalQuiz: React.FC = () => {
 
   if (showResults) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-moroccan-cream/30 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl p-8 shadow-xl"
+            className="moroccan-card p-8 shadow-moroccan"
           >
             <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-moroccan-gold to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="w-10 h-10 text-white" />
+              <div className="w-24 h-24 bg-gradient-to-br from-moroccan-gold to-moroccan-copper rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-gold">
+                <Check className="w-12 h-12 text-white" />
               </div>
-              <h1 className="text-3xl font-bold text-moroccan-dark mb-2">{t('quiz.results')}</h1>
-              <p className="text-gray-600">Based on your responses, here's how you align with Moroccan political parties</p>
+              <h1 className="text-4xl font-heading font-bold text-moroccan-navy mb-4">{t('quiz.results.title')}</h1>
+              <div className="w-24 h-1 bg-gradient-to-r from-moroccan-red to-moroccan-gold mx-auto mb-4 rounded-full"></div>
+              <p className="text-moroccan-slate text-lg">{t('quiz.results.subtitle')}</p>
             </div>
 
-            <div className="space-y-4 mb-8">
+            <div className="space-y-6 mb-8">
               {results.map((result, index) => (
                 <motion.div
                   key={result.party}
-                  initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
+                  initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-shadow"
+                  className="bg-gray-50 rounded-2xl p-6 hover:shadow-academic transition-shadow"
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-moroccan-dark">{result.party}</h3>
-                    <span className="text-2xl font-bold text-moroccan-red">{result.percentage}%</span>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-bold text-moroccan-navy text-lg">{result.party}</h3>
+                    <span className="text-3xl font-heading font-bold text-moroccan-red">
+                      {t('quiz.results.match', { percent: result.percentage.toString() })}
+                    </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                  <div className="w-full bg-gray-200 rounded-full h-4 mb-3">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${result.percentage}%` }}
                       transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                      className={`h-3 rounded-full ${result.color}`}
+                      className={`h-4 rounded-full ${result.color}`}
                     />
                   </div>
-                  <p className="text-sm text-gray-600">{result.description}</p>
+                  <p className="text-moroccan-slate">{result.description}</p>
                 </motion.div>
               ))}
+            </div>
+
+            <div className="text-center mb-8">
+              <p className="text-sm text-moroccan-slate italic">
+                {t('quiz.results.disclaimer')}
+              </p>
             </div>
 
             <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
               <button
                 onClick={resetQuiz}
-                className="flex items-center justify-center px-6 py-3 bg-moroccan-red text-white rounded-xl hover:bg-red-700 transition-colors"
+                className="moroccan-button-primary"
               >
                 <RotateCcw className="w-5 h-5 mr-2" />
-                {t('quiz.retake')}
+                {t('quiz.results.retake')}
               </button>
-              <button className="flex items-center justify-center px-6 py-3 border-2 border-moroccan-blue text-moroccan-blue rounded-xl hover:bg-moroccan-blue hover:text-white transition-colors">
+              <button className="moroccan-button bg-moroccan-blue text-white hover:bg-blue-700">
                 <Share2 className="w-5 h-5 mr-2" />
-                {t('quiz.share')}
+                {t('quiz.results.share')}
               </button>
-              <button className="flex items-center justify-center px-6 py-3 border-2 border-moroccan-gold text-moroccan-gold rounded-xl hover:bg-moroccan-gold hover:text-white transition-colors">
+              <button className="moroccan-button bg-moroccan-gold text-white hover:bg-yellow-600">
                 <Download className="w-5 h-5 mr-2" />
-                {t('quiz.download')}
+                {t('quiz.results.download')}
               </button>
             </div>
           </motion.div>
@@ -227,40 +232,56 @@ export const PoliticalQuiz: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-moroccan-red via-red-600 to-moroccan-gold py-8">
+    <div className="min-h-screen bg-gradient-to-br from-moroccan-red via-moroccan-burgundy to-moroccan-gold py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Quiz Type Selection */}
         {currentQuestion === -1 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl p-8 shadow-xl mb-8"
+            className="moroccan-card p-8 shadow-moroccan mb-8"
           >
-            <h1 className="text-3xl font-bold text-center text-moroccan-dark mb-6">{t('quiz.title')}</h1>
+            <div className="text-center mb-8">
+              <div className="w-20 h-20 bg-gradient-to-br from-moroccan-red to-moroccan-gold rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-moroccan">
+                <Target className="w-10 h-10 text-white" />
+              </div>
+              <h1 className="text-4xl font-heading font-bold text-moroccan-navy mb-4">{t('quiz.title')}</h1>
+              <div className="w-24 h-1 bg-gradient-to-r from-moroccan-red to-moroccan-gold mx-auto mb-4 rounded-full"></div>
+              <p className="text-moroccan-slate text-lg">{t('quiz.subtitle')}</p>
+              <p className="text-moroccan-slate mt-2">{t('quiz.description')}</p>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <button
                 onClick={() => startQuiz('short')}
-                className={`p-6 rounded-xl border-2 transition-all ${
+                className={`p-8 rounded-2xl border-2 transition-all duration-300 text-left ${
                   quizType === 'short' 
-                    ? 'border-moroccan-red bg-moroccan-red text-white' 
-                    : 'border-gray-200 hover:border-moroccan-red hover:bg-red-50'
+                    ? 'border-moroccan-red bg-gradient-to-br from-moroccan-red to-moroccan-burgundy text-white shadow-moroccan' 
+                    : 'border-gray-200 hover:border-moroccan-red hover:bg-moroccan-cream/50'
                 }`}
               >
-                <h3 className="text-xl font-bold mb-2">{t('quiz.shortQuiz')}</h3>
-                <p className="text-sm opacity-90">10 {t('quiz.questions')} • 3 {t('quiz.minutes')}</p>
-                <p className="text-sm mt-2">Perfect for a quick political alignment check</p>
+                <div className="flex items-center mb-4">
+                  <Clock className="w-8 h-8 mr-3" />
+                  <h3 className="text-2xl font-heading font-bold">{t('quiz.type.short')}</h3>
+                </div>
+                <p className="text-lg mb-2">{t('quiz.type.short.description')}</p>
+                <p className="opacity-90">{t('quiz.type.short.detail')}</p>
               </button>
+              
               <button
                 onClick={() => startQuiz('full')}
-                className={`p-6 rounded-xl border-2 transition-all ${
+                className={`p-8 rounded-2xl border-2 transition-all duration-300 text-left ${
                   quizType === 'full' 
-                    ? 'border-moroccan-red bg-moroccan-red text-white' 
-                    : 'border-gray-200 hover:border-moroccan-red hover:bg-red-50'
+                    ? 'border-moroccan-red bg-gradient-to-br from-moroccan-red to-moroccan-burgundy text-white shadow-moroccan' 
+                    : 'border-gray-200 hover:border-moroccan-red hover:bg-moroccan-cream/50'
                 }`}
               >
-                <h3 className="text-xl font-bold mb-2">{t('quiz.fullQuiz')}</h3>
-                <p className="text-sm opacity-90">15 {t('quiz.questions')} • 5 {t('quiz.minutes')}</p>
-                <p className="text-sm mt-2">Comprehensive analysis of your political views</p>
+                <div className="flex items-center mb-4">
+                  <Target className="w-8 h-8 mr-3" />
+                  <h3 className="text-2xl font-heading font-bold">{t('quiz.type.full')}</h3>
+                </div>
+                <p className="text-lg mb-2">{t('quiz.type.full.description')}</p>
+                <p className="opacity-90">{t('quiz.type.full.detail')}</p>
               </button>
             </div>
           </motion.div>
@@ -268,21 +289,24 @@ export const PoliticalQuiz: React.FC = () => {
 
         {/* Quiz Questions */}
         {currentQuestion >= 0 && !loading && (
-          <div className="bg-white rounded-2xl p-8 shadow-xl">
+          <div className="moroccan-card p-8 shadow-moroccan">
             <div className="mb-8">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-600">
-                  Question {currentQuestion + 1} of {totalQuestions}
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-sm font-medium text-moroccan-slate">
+                  {t('quiz.question.counter', { 
+                    current: (currentQuestion + 1).toString(), 
+                    total: totalQuestions.toString() 
+                  })}
                 </span>
-                <span className="text-sm font-medium text-gray-600">
-                  {Math.round(progress)}% Complete
+                <span className="text-sm font-medium text-moroccan-slate">
+                  {t('quiz.progress', { percent: Math.round(progress).toString() })}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-gray-200 rounded-full h-3">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
-                  className="h-2 bg-gradient-to-r from-moroccan-red to-moroccan-gold rounded-full"
+                  className="h-3 bg-gradient-to-r from-moroccan-red to-moroccan-gold rounded-full"
                 />
               </div>
             </div>
@@ -297,45 +321,45 @@ export const PoliticalQuiz: React.FC = () => {
               >
                 {questions[currentQuestion] && (
                   <>
-                    <div className="mb-4">
-                      <span className="inline-block px-3 py-1 bg-moroccan-gold text-white text-sm font-medium rounded-full mb-4">
+                    <div className="mb-6">
+                      <span className="inline-block px-4 py-2 bg-gradient-to-r from-moroccan-gold to-moroccan-copper text-white text-sm font-medium rounded-full mb-6 shadow-gold">
                         {questions[currentQuestion].category}
                       </span>
                     </div>
                     
-                    <h2 className="text-2xl font-bold text-moroccan-dark mb-8 leading-relaxed">
+                    <h2 className="text-2xl md:text-3xl font-heading font-bold text-moroccan-navy mb-10 leading-relaxed">
                       {questions[currentQuestion].text}
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                       {[
-                        { value: 1, label: t('answer.disagree'), color: 'bg-red-500 hover:bg-red-600' },
-                        { value: 2, label: t('answer.neutral'), color: 'bg-gray-400 hover:bg-gray-500' },
-                        { value: 3, label: t('answer.agree'), color: 'bg-green-500 hover:bg-green-600' },
+                        { value: 1, label: t('quiz.answers.disagree'), color: 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' },
+                        { value: 2, label: t('quiz.answers.neutral'), color: 'from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600' },
+                        { value: 3, label: t('quiz.answers.agree'), color: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700' },
                       ].map((option) => (
                         <motion.button
                           key={option.value}
                           onClick={() => handleAnswer(option.value)}
-                          className={`p-6 rounded-xl text-white font-medium text-center transition-all ${option.color} hover:scale-105 active:scale-95`}
+                          className={`p-6 rounded-2xl text-white font-semibold text-center transition-all bg-gradient-to-br ${option.color} hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl`}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <div className="text-lg font-bold mb-2">{option.value}</div>
+                          <div className="text-2xl font-bold mb-2">{option.value}</div>
                           <div className="text-sm opacity-90">{option.label}</div>
                         </motion.button>
                       ))}
                     </div>
 
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center">
                       <button
                         onClick={goToPrevious}
                         disabled={currentQuestion === 0}
-                        className="flex items-center px-6 py-3 bg-gray-200 text-gray-600 rounded-xl hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center px-6 py-3 bg-gray-200 text-moroccan-slate rounded-xl hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <ArrowLeft className="w-5 h-5 mr-2" />
-                        {t('quiz.previous')}
+                        <ArrowLeft className={`w-5 h-5 mr-2 ${isRTL ? 'rotate-180' : ''}`} />
+                        {t('common.previous')}
                       </button>
-                      <div className="text-sm text-gray-500 flex items-center">
+                      <div className="text-sm text-moroccan-slate text-center">
                         Click an option to continue automatically
                       </div>
                     </div>
@@ -348,9 +372,10 @@ export const PoliticalQuiz: React.FC = () => {
 
         {/* Loading State */}
         {loading && (
-          <div className="bg-white rounded-2xl p-8 shadow-xl text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-moroccan-red mx-auto mb-4"></div>
-            <p className="text-gray-600">Calculating your political alignment...</p>
+          <div className="moroccan-card p-8 shadow-moroccan text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-moroccan-red mx-auto mb-6"></div>
+            <p className="text-moroccan-slate text-lg">{t('common.loading')}</p>
+            <p className="text-moroccan-slate text-sm mt-2">Calculating your political alignment...</p>
           </div>
         )}
       </div>
