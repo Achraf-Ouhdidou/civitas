@@ -2,7 +2,7 @@
 
 A comprehensive, multilingual web platform designed to increase voter awareness and participation in Moroccan elections through technology, transparency, and civic engagement.
 
-## 🌟 Features
+##  Features
 
 ### Core Modules
 
@@ -19,7 +19,7 @@ A comprehensive, multilingual web platform designed to increase voter awareness 
 - **Academic Rigor**: Research-backed political analysis and alignment algorithms
 - **Real-time Updates**: Live tracking of political developments and events
 
-## 🚀 Technology Stack
+##  Technology Stack
 
 ### Frontend
 - **React 18** with TypeScript
@@ -41,7 +41,7 @@ A comprehensive, multilingual web platform designed to increase voter awareness 
 - **ESLint** for code linting
 - **TypeScript** for type safety
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 moroccan-voting-platform/
@@ -124,7 +124,7 @@ moroccan-voting-platform/
    - Backend API: http://localhost:3001
    - Health Check: http://localhost:3001/api/health
 
-## 🌐 API Endpoints
+## API Endpoints
 
 ### Quiz Module
 - `GET /api/quiz/questions` - Get quiz questions
@@ -151,7 +151,7 @@ moroccan-voting-platform/
 - `POST /api/events` - Create new event (admin)
 - `PUT /api/events/:id` - Update event (admin)
 
-## 🎨 Design System
+## Design System
 
 ### Colors
 - **Moroccan Red**: #C41E3A (Primary brand color)
@@ -171,7 +171,7 @@ moroccan-voting-platform/
 - Smooth animations and micro-interactions
 - Accessible color contrasts and typography
 
-## 🌍 Internationalization
+## Internationalization
 
 The platform supports four languages with complete translations:
 
@@ -187,7 +187,7 @@ The platform supports four languages with complete translations:
 3. Include all required translation keys
 4. Test RTL support if applicable
 
-## 🔒 Security Features
+## Security Features
 
 - **Helmet.js** for HTTP security headers
 - **Rate limiting** to prevent abuse
@@ -196,16 +196,16 @@ The platform supports four languages with complete translations:
 - **Password hashing** with bcrypt
 - **CORS configuration** for API access
 
-## 📱 Responsive Design
+## Responsive Design
 
 The platform is fully responsive with breakpoints for:
 - **Mobile**: 320px - 768px
 - **Tablet**: 768px - 1024px
 - **Desktop**: 1024px+
 
-## 🚀 Deployment
+## Deployment
 
-### Production Build
+## Production Build
 
 ```bash
 # Build frontend
@@ -215,7 +215,7 @@ npm run build
 npm start
 ```
 
-### Environment Variables (Production)
+## Environment Variables (Production)
 
 ```env
 NODE_ENV=production
@@ -224,7 +224,7 @@ JWT_SECRET=your-production-jwt-secret
 PORT=3001
 ```
 
-### Deployment Platforms
+## Deployment Platforms
 
 The application can be deployed on:
 - **Netlify** (Frontend)
@@ -233,9 +233,9 @@ The application can be deployed on:
 - **DigitalOcean** (VPS)
 - **AWS** (EC2/Elastic Beanstalk)
 
-## 🤝 Contributing
+##  Contributing
 
-### Development Workflow
+## Development Workflow
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
@@ -245,7 +245,7 @@ The application can be deployed on:
 6. Push to branch: `git push origin feature/amazing-feature`
 7. Open a Pull Request
 
-### Code Standards
+## Code Standards
 
 - Use TypeScript for type safety
 - Follow ESLint configuration
@@ -253,14 +253,14 @@ The application can be deployed on:
 - Add tests for new features
 - Update documentation as needed
 
-## 📊 Analytics & Monitoring
+## Analytics & Monitoring
 
 - **Performance monitoring** with built-in metrics
 - **Error tracking** and logging
 - **User engagement** analytics
 - **API usage** statistics
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - **AI-powered recommendations** for political alignment
 - **Real-time voting day support** with polling station info
@@ -270,23 +270,17 @@ The application can be deployed on:
 - **Multi-factor authentication**
 - **Offline support** with PWA features
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **Moroccan Political Science Experts** for research validation
 - **University Partners** for academic collaboration
 - **Open Source Community** for tools and libraries
 - **Moroccan Citizens** for feedback and testing
 
-## 📞 Support
+##  Support
 
 For support, email contact@votematters.ma or join our community discussions.
-
----
-
-**Made with ❤️ for Morocco's Democratic Future**
-
-صُنع بـ ❤️ لمستقبل المغرب الديمقراطي
